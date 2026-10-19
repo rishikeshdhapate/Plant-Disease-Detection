@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ app_title }}{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Custom Agricultural CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100 bg-nature-light">
+
+    <!-- Top Agricultural Announcement Bar -->
+    <div class="top-announcement py-1 text-center text-white small">
+        <i class="bi bi-shield-check me-1"></i> AI-Powered Crop Health Intelligence &bull; MobileNetV2 Deep Neural Architecture
+    </div>
+
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-nature-primary sticky-top shadow-sm py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ url_for('index') }}">
+                <div class="brand-icon-wrapper me-2">
+                    <i class="bi bi-flower1 fs-4 text-nature-accent"></i>
+                </div>
+                <span>FloraGuard <span class="badge bg-nature-accent text-dark fw-bold ms-1 font-monospace" style="font-size: 0.65rem;">AI</span></span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-display="static" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 {% if request.endpoint == 'detect' %}active{% endif %}" href="{{ url_for('detect') }}">
+                            <i class="bi bi-camera me-1"></i> Detect Disease
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">
+                            <i class="bi bi-info-circle me-1"></i> About &amp; Architecture
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        {% if is_model_ready %}
+                            <span class="badge bg-nature-success text-white py-2 px-3 rounded-pill d-inline-flex align-items-center">
+                                <span class="status-indicator-dot me-2 bg-white"></span> Model Active ({{ total_classes }} Classes)
+                            </span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark py-2 px-3 rounded-pill d-inline-flex align-items-center" title="Train the model using python train.py">
+                                <span class="status-indicator-dot me-2 bg-dark"></span> Demo / Setup Mode
+                            </span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages Container -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center" role="alert">
+                        {% if category == 'danger' %}
+                            <i class="bi bi-exclamation-octagon-fill fs-5 me-2"></i>
+                        {% elif category == 'warning' %}
+                            <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
+                        {% else %}
+                            <i class="bi bi-check-circle-fill fs-5 me-2"></i>
+                        {% endif %}
+                        <div>{{ message }}</div>
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Dynamic Content Block -->
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-nature-dark text-white-50 pt-5 pb-4 mt-auto">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-white fw-bold d-flex align-items-center mb-3">
+                        <i class="bi bi-flower1 text-nature-accent me-2"></i> FloraGuard AI
+                    </h5>
+                    <p class="small text-light-muted">
+                        Automated Plant Disease Detection Using Deep Convolutional Neural Networks and MobileNetV2 Transfer Learning. Built for academic research, agricultural extension, and final-year engineering projects.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-nature-primary text-white border border-secondary">TensorFlow 2.x</span>
+                        <span class="badge bg-nature-primary text-white border border-secondary">Keras</span>
+                        <span class="badge bg-nature-primary text-white border border-secondary">Flask</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-white fw-semibold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li><a href="{{ url_for('index') }}" class="text-white-50 text-decoration-none hover-link">Home</a></li>
+                        <li><a href="{{ url_for('detect') }}" class="text-white-50 text-decoration-none hover-link">Diagnose Leaf</a></li>
+                        <li><a href="{{ url_for('about') }}" class="text-white-50 text-decoration-none hover-link">System Design</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-semibold mb-3">Key Capabilities</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li><i class="bi bi-check2 text-nature-accent me-1"></i> 38 PlantVillage Categories</li>
+                        <li><i class="bi bi-check2 text-nature-accent me-1"></i> Multi-Class Softmax Probability</li>
+                        <li><i class="bi bi-check2 text-nature-accent me-1"></i> Top-3 Candidate Breakdown</li>
+                        <li><i class="bi bi-check2 text-nature-accent me-1"></i> Integrated Treatment Guidance</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-semibold mb-3">Diagnostic Notice</h6>
+                    <p class="small text-light-muted mb-2">
+                        Classification scores represent statistical probabilities derived from leaf imagery. Field diagnostics should be verified by agricultural extension professionals.
+                    </p>
+                    <div class="text-white small">
+                        <i class="bi bi-cpu text-nature-accent me-1"></i> MobileNetV2 Architecture
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4 opacity-25">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small text-light-muted">
+                <div>&copy; {{ current_year }} Plant Disease Detection Project &bull; Deep Learning Laboratory</div>
+                <div class="mt-2 mt-sm-0">
+                    <span class="text-nature-accent">Final-Year B.Tech / B.E. Computer Science &amp; Engineering Project</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Project JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

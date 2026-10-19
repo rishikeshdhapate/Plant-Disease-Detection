@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ app_title }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white py-5 position-relative overflow-hidden">
+    <div class="hero-leaf-overlay"></div>
+    <div class="container py-4 position-relative z-1">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-15 backdrop-blur mb-3 border border-white border-opacity-25">
+                    <span class="badge bg-nature-accent text-dark fw-bold">Deep Learning</span>
+                    <span class="small text-white">Final-Year Laboratory &amp; Engineering Project</span>
+                </div>
+                <h1 class="display-4 fw-extrabold mb-3 lh-tight">
+                    Plant Disease Detection <br class="d-none d-md-block">
+                    <span class="text-nature-accent text-gradient">Using CNN &amp; MobileNetV2</span>
+                </h1>
+                <p class="lead text-white-50 mb-4 pe-lg-4 fs-6">
+                    Harnessing deep convolutional transfer learning to identify foliar diseases across 38 crop categories in real time. Delivers statistical classification confidence and actionable agronomic guidance.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('detect') }}" class="btn btn-nature-accent btn-lg px-4 py-3 fw-bold shadow-sm d-inline-flex align-items-center">
+                        <i class="bi bi-camera-fill me-2 fs-5"></i> Start Disease Detection
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-4 py-3 fw-semibold d-inline-flex align-items-center">
+                        <i class="bi bi-cpu me-2 fs-5"></i> Architecture &amp; Methodology
+                    </a>
+                </div>
+                <!-- Mini Stats Bar -->
+                <div class="row g-3 mt-4 pt-3 border-top border-white border-opacity-20 text-center text-sm-start">
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-white">38</h4>
+                        <div class="small text-white-50">PlantVillage Classes</div>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-nature-accent">224 &times; 224</h4>
+                        <div class="small text-white-50">Spatial Resolution</div>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="fw-bold mb-0 text-white">&lt; 100ms</h4>
+                        <div class="small text-white-50">Average Inference</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="hero-image-card p-4 rounded-4 shadow-lg backdrop-blur bg-white bg-opacity-10 border border-white border-opacity-20">
+                    <div class="p-3 bg-white rounded-3 shadow-sm mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2 small text-muted">
+                            <span class="badge bg-danger-subtle text-danger fw-semibold">Early Blight</span>
+                            <span>Target Spotting &bull; 96.4% Conf.</span>
+                        </div>
+                        <div class="sample-leaf-preview rounded-2 overflow-hidden position-relative">
+                            <svg viewBox="0 0 400 250" class="w-100 h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="250" fill="#2d6a4f" rx="8"/>
+                                <path d="M 60 200 C 120 40, 280 40, 340 200 C 260 220, 140 220, 60 200 Z" fill="#40916c"/>
+                                <path d="M 120 180 Q 200 90 280 170" stroke="#74c69d" stroke-width="3" fill="none"/>
+                                <path d="M 160 140 Q 200 120 220 150" stroke="#74c69d" stroke-width="2" fill="none"/>
+                                <!-- Disease concentric rings -->
+                                <circle cx="210" cy="110" r="22" fill="#582f0e" opacity="0.85"/>
+                                <circle cx="210" cy="110" r="14" fill="#7f4f24" opacity="0.9"/>
+                                <circle cx="210" cy="110" r="7" fill="#382110"/>
+                                <circle cx="210" cy="110" r="27" stroke="#ffb703" stroke-width="2" fill="none" opacity="0.7"/>
+                                
+                                <circle cx="150" cy="155" r="16" fill="#582f0e" opacity="0.85"/>
+                                <circle cx="150" cy="155" r="9" fill="#7f4f24" opacity="0.9"/>
+                                <circle cx="150" cy="155" r="20" stroke="#ffb703" stroke-width="2" fill="none" opacity="0.7"/>
+                                <!-- Diagnostic HUD Box -->
+                                <rect x="20" y="20" width="180" height="38" rx="6" fill="#1b4332" opacity="0.85"/>
+                                <text x="32" y="44" fill="#d8f3dc" font-size="13" font-family="monospace" font-weight="bold">Feature Map: Extracted</text>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-start">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span class="fw-semibold text-dark">MobileNetV2 Softmax</span>
+                                <span class="text-success fw-bold">96.4%</span>
+                            </div>
+                            <div class="progress" style="height: 7px;">
+                                <div class="progress-bar bg-nature-success" style="width: 96.4%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between text-white-50 small px-2">
+                        <span><i class="bi bi-shield-check text-nature-accent me-1"></i> Pretrained ImageNet Weights</span>
+                        <span><i class="bi bi-cpu text-nature-accent me-1"></i> Lightweight Edge Model</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3-Step Workflow Section -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container py-4">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-nature-accent-subtle text-nature-primary fw-bold px-3 py-2 rounded-pill uppercase tracking-wider small">Workflow</span>
+            <h2 class="fw-bold mt-2 text-nature-dark">How The Diagnostic Pipeline Works</h2>
+            <p class="text-muted">A streamlined end-to-end computer vision workflow translating raw foliar images into biological diagnoses.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 rounded-4 border bg-nature-light shadow-sm text-center">
+                    <div class="feature-icon-wrapper mb-3 mx-auto bg-nature-primary text-white">
+                        <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
+                    </div>
+                    <div class="step-badge mb-2">Step 1</div>
+                    <h5 class="fw-bold text-nature-dark">Upload Foliar Photo</h5>
+                    <p class="text-muted small mb-0">
+                        Capture or upload a clear, focused image of the affected plant leaf. Formats like JPG, PNG, and WEBP are verified and sanitized.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 rounded-4 border bg-nature-light shadow-sm text-center">
+                    <div class="feature-icon-wrapper mb-3 mx-auto bg-nature-accent text-dark">
+                        <i class="bi bi-diagram-3-fill fs-3"></i>
+                    </div>
+                    <div class="step-badge mb-2">Step 2</div>
+                    <h5 class="fw-bold text-nature-dark">CNN Deep Inference</h5>
+                    <p class="text-muted small mb-0">
+                        The leaf is preprocessed to 224&times;224 and evaluated by MobileNetV2 depthwise separable convolution layers to compute disease probability distributions.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 rounded-4 border bg-nature-light shadow-sm text-center">
+                    <div class="feature-icon-wrapper mb-3 mx-auto bg-nature-success text-white">
+                        <i class="bi bi-heart-pulse-fill fs-3"></i>
+                    </div>
+                    <div class="step-badge mb-2">Step 3</div>
+                    <h5 class="fw-bold text-nature-dark">Diagnosis &amp; Care Advice</h5>
+                    <p class="text-muted small mb-0">
+                        Receive instant condition diagnosis, prediction confidence gauge, top-3 candidates, symptoms breakdown, and agricultural treatment recommendations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Supported Crops Showcase -->
+<section class="py-5 bg-nature-light">
+    <div class="container py-4">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-nature-accent-subtle text-nature-primary fw-bold px-3 py-2 rounded-pill small">Taxonomy</span>
+            <h2 class="fw-bold mt-2 text-nature-dark">Supported Crops &amp; Disease Classes</h2>
+            <p class="text-muted">The model is configured to recognize healthy specimens and various pathological conditions across key agricultural crops from the PlantVillage dataset.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Tomato Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-danger-subtle text-danger me-3">
+                            <i class="bi bi-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Tomato (Solanum lycopersicum)</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">10 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Bacterial Spot, Early Blight, Late Blight, Leaf Mold, Septoria Leaf Spot, Spider Mites, Target Spot, Yellow Leaf Curl Virus, Mosaic Virus, Healthy.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Pathogen Types</span>
+                        <span class="fw-semibold text-dark">Fungal, Bacterial, Viral</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Potato Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-warning-subtle text-warning me-3">
+                            <i class="bi bi-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Potato (Solanum tuberosum)</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">3 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Early Blight (Alternaria solani), Late Blight (Phytophthora infestans), and Healthy Foliage.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Pathogen Types</span>
+                        <span class="fw-semibold text-dark">Fungal, Oomycete</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corn / Maize Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-success-subtle text-success me-3">
+                            <i class="bi bi-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Corn / Maize (Zea mays)</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">4 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Cercospora Gray Leaf Spot, Common Rust (Puccinia sorghi), Northern Leaf Blight, and Healthy Foliage.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Pathogen Types</span>
+                        <span class="fw-semibold text-dark">Fungal Foliar Blights</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apple Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-danger-subtle text-danger me-3">
+                            <i class="bi bi-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Apple (Malus domestica)</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">4 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Apple Scab, Black Rot (Frogeye Leaf Spot), Cedar Apple Rust, and Healthy Leaves.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Pathogen Types</span>
+                        <span class="fw-semibold text-dark">Fungal Ascomycetes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bell Pepper Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-primary-subtle text-primary me-3">
+                            <i class="bi bi-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Bell Pepper (Capsicum annuum)</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">2 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Bacterial Spot (Xanthomonas vesicatoria) and Healthy Leaves.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Pathogen Types</span>
+                        <span class="fw-semibold text-dark">Bacterial, Physiological</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Crops Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="crop-card bg-white p-4 rounded-4 shadow-sm border h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="crop-badge-icon bg-info-subtle text-info me-3">
+                            <i class="bi bi-grid-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-nature-dark">Grape, Peach, Cherry &amp; More</h5>
+                            <span class="badge bg-secondary-subtle text-secondary small">15 Conditions</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">Grape Black Rot &amp; Esca, Peach Bacterial Spot, Cherry Powdery Mildew, Orange Citrus Greening, Strawberry Leaf Scorch, Squash Powdery Mildew.</p>
+                    <div class="border-top pt-2 d-flex justify-content-between small text-muted">
+                        <span>Dataset Total</span>
+                        <span class="fw-semibold text-dark">38 Distinct Classes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('detect') }}" class="btn btn-nature-primary btn-lg px-5 py-3 fw-bold shadow">
+                <i class="bi bi-upload me-2"></i> Upload a Leaf to Diagnose
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Callout Banner -->
+<section class="py-5 bg-nature-primary text-white">
+    <div class="container py-3">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-2">Developed For Engineering &amp; Research Demonstrations</h3>
+                <p class="mb-0 text-white-50">
+                    Complete with stratified data splits, MobileNetV2 depthwise separable convolution blocks, Keras checkpoints, and Scikit-learn evaluation metrics.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('about') }}" class="btn btn-nature-accent btn-lg px-4 py-3 fw-bold">
+                    <i class="bi bi-journal-text me-2"></i> Review Laboratory Docs
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

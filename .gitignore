@@ -1,0 +1,55 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+
+# Large Datasets & Model weights
+dataset/*/
+dataset/*.zip
+models/*.keras
+models/*.h5
+models/*.weights.h5
+!models/.gitkeep
+!models/class_names.json
+!models/plant_disease_model.keras
+
+# User uploads & cache
+uploads/*
+!uploads/.gitkeep
+
+# Evaluation outputs that are regenerated
+results/*.png
+results/*.json
+!results/.gitkeep
+
+# IDE and OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

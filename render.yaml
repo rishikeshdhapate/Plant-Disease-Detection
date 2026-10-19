@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: floraguard-inference
+    runtime: python
+    plan: standard
+    buildCommand: pip install -r requirements-inference.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: PREDICTION_API_TOKEN
+        generateValue: true

@@ -1,0 +1,7 @@
+# Runtime dependencies for the Render model inference service.
+tensorflow>=2.16.0
+numpy>=1.26.0
+pillow>=10.0.0
+flask>=3.0.0
+werkzeug>=3.0.0
+gunicorn>=22.0.0

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Diagnosis Result - {{ result.condition }} - {{ app_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <!-- Top Return & Header Breadcrumb -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{{ url_for('detect') }}" class="btn btn-outline-nature rounded-pill px-3 py-2 small fw-semibold">
+                <i class="bi bi-arrow-left me-1"></i> Diagnose Another Leaf
+            </a>
+        </div>
+        <div class="mt-2 mt-md-0 text-muted small">
+            <i class="bi bi-clock-history me-1"></i> Analysis Completed &bull; Analyzed file: <span class="font-monospace text-dark">{{ filename }}</span>
+        </div>
+    </div>
+
+    <!-- Low Confidence Warning Banner -->
+    {% if result.warning %}
+    <div class="alert alert-warning border-0 shadow-sm rounded-4 p-4 mb-4 d-flex align-items-start">
+        <i class="bi bi-exclamation-triangle-fill fs-3 text-warning me-3 mt-1"></i>
+        <div>
+            <h5 class="fw-bold mb-1">Diagnostic Caution: Low Prediction Certainty</h5>
+            <p class="mb-0 small text-dark">{{ result.warning }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        
+        <!-- Left Column: Image, Crop Identity, & Confidence Gauge -->
+        <div class="col-lg-5">
+            
+            <!-- Main Result Card -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white">
+                <div class="result-image-header position-relative bg-dark text-center p-3">
+                    <img src="{{ image_url }}" alt="Analyzed Leaf" class="img-fluid rounded-3 shadow" style="max-height: 340px; width: 100%; object-fit: contain;">
+                    <div class="position-absolute bottom-0 start-0 m-3">
+                        <span class="badge bg-{{ result.confidence_badge }} px-3 py-2 rounded-pill shadow-sm fs-6">
+                            {{ result.confidence_level }} Confidence
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <span class="text-muted small text-uppercase tracking-wider fw-bold">Identified Crop</span>
+                            <h3 class="fw-bold text-nature-dark mb-0">{{ result.crop }}</h3>
+                        </div>
+                        <div class="text-end">
+                            <span class="text-muted small text-uppercase tracking-wider fw-bold">Severity</span>
+                            <div>
+                                {% if result.is_healthy %}
+                                    <span class="badge bg-success-subtle text-success fs-6 fw-bold">Healthy Plant</span>
+                                {% elif result.severity == 'Severe / Critical' or result.severity == 'Severe' %}
+                                    <span class="badge bg-danger text-white fs-6 fw-bold">Critical</span>
+                                {% else %}
+                                    <span class="badge bg-warning-subtle text-dark fs-6 fw-bold">{{ result.severity }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-top pt-3 mt-3">
+                        <span class="text-muted small text-uppercase tracking-wider fw-bold">Predicted Condition</span>
+                        <h4 class="fw-bold text-nature-primary mb-3">{{ result.condition }}</h4>
+                        
+                        <!-- Confidence Meter Bar -->
+                        <div class="d-flex justify-content-between align-items-center mb-1 small">
+                            <span class="fw-semibold">Model Confidence</span>
+                            <span class="fw-bold text-nature-primary fs-5">{{ result.confidence }}%</span>
+                        </div>
+                        <div class="progress rounded-pill" style="height: 12px;">
+                            <div class="progress-bar bg-nature-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ result.confidence }}%;" aria-valuenow="{{ result.confidence }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top-3 Candidate Probabilities Breakdown -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+                <h5 class="fw-bold text-nature-dark mb-3 d-flex align-items-center">
+                    <i class="bi bi-bar-chart-fill text-nature-accent me-2"></i> Top-3 Candidate Predictions
+                </h5>
+                <p class="text-muted small mb-3">Softmax probability distribution across the top 3 most likely disease classes:</p>
+                
+                <div class="candidate-list d-flex flex-column gap-3">
+                    {% for candidate in result.top_3 %}
+                    <div>
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span class="fw-semibold text-nature-dark">{{ candidate.crop }} &bull; {{ candidate.condition }}</span>
+                            <span class="fw-bold {% if loop.first %}text-nature-primary{% else %}text-muted{% endif %}">{{ candidate.confidence }}%</span>
+                        </div>
+                        <div class="progress rounded-pill" style="height: 8px;">
+                            <div class="progress-bar {% if loop.first %}bg-nature-primary{% else %}bg-secondary bg-opacity-50{% endif %}" style="width: {{ candidate.confidence }}%;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Biological Details & Management Recommendations -->
+        <div class="col-lg-7">
+            
+            <!-- Description Card -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-nature-dark mb-3 d-flex align-items-center">
+                    <i class="bi bi-book-half text-nature-primary me-2"></i> Pathological Overview
+                </h5>
+                <p class="text-secondary leading-relaxed mb-0">{{ result.description }}</p>
+            </div>
+
+            <!-- Observable Symptoms Card -->
+            {% if result.symptoms %}
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-nature-dark mb-3 d-flex align-items-center">
+                    <i class="bi bi-binoculars-fill text-nature-primary me-2"></i> Common Foliar Symptoms
+                </h5>
+                <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                    {% for symptom in result.symptoms %}
+                    <li class="d-flex align-items-start small text-dark">
+                        <i class="bi bi-check2-circle text-nature-accent fs-5 me-2 mt-n1"></i>
+                        <span>{{ symptom }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Actionable Recommendations Card -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <h5 class="fw-bold text-nature-dark mb-3 d-flex align-items-center">
+                    <i class="bi bi-shield-shaded text-nature-primary me-2"></i> Disease Management Guidance
+                </h5>
+
+                <div class="row g-3">
+                    <!-- Cultural Management -->
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-nature-light border h-100">
+                            <h6 class="fw-bold text-nature-primary mb-2 d-flex align-items-center">
+                                <i class="bi bi-droplet-half me-2"></i> Cultural &amp; Sanitation
+                            </h6>
+                            <p class="small text-muted mb-0">{{ result.recommendations.cultural }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Organic / Biological -->
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-nature-light border h-100">
+                            <h6 class="fw-bold text-success mb-2 d-flex align-items-center">
+                                <i class="bi bi-tree me-2"></i> Organic &amp; Biological
+                            </h6>
+                            <p class="small text-muted mb-0">{{ result.recommendations.organic }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Chemical Treatment -->
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-nature-light border h-100">
+                            <h6 class="fw-bold text-danger mb-2 d-flex align-items-center">
+                                <i class="bi bi-prescription2 me-2"></i> Chemical Protection
+                            </h6>
+                            <p class="small text-muted mb-0">{{ result.recommendations.chemical }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Prevention & Rotation -->
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-nature-light border h-100">
+                            <h6 class="fw-bold text-nature-dark mb-2 d-flex align-items-center">
+                                <i class="bi bi-shield-check me-2"></i> Preventive Practices
+                            </h6>
+                            <p class="small text-muted mb-0">{{ result.recommendations.prevention }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclaimer Notice -->
+            <div class="p-3 rounded-4 bg-light text-muted small border d-flex align-items-start mb-4">
+                <i class="bi bi-info-circle-fill text-secondary fs-5 me-2 mt-n1"></i>
+                <div>
+                    <strong>Diagnostic Notice:</strong> {{ result.disclaimer }} For commercial crops or widespread infestations, verify with laboratory tissue tests or local agricultural extension officers before applying chemical regimens.
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="d-flex gap-3">
+                <a href="{{ url_for('detect') }}" class="btn btn-nature-primary btn-lg px-4 py-3 fw-bold flex-grow-1 text-center shadow-sm">
+                    <i class="bi bi-camera me-2"></i> Analyze Another Leaf
+                </a>
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4 py-3 fw-semibold" onclick="window.print()">
+                    <i class="bi bi-printer me-2"></i> Print Report
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

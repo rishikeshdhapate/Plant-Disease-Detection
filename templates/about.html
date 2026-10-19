@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}About Project - {{ app_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <!-- Hero / Title -->
+    <div class="text-center max-w-800 mx-auto mb-5">
+        <span class="badge bg-nature-accent-subtle text-nature-primary fw-bold px-3 py-2 rounded-pill small">
+            Academic Project Documentation
+        </span>
+        <h1 class="display-5 fw-bold mt-2 text-nature-dark">Plant Disease Detection Using Deep Learning &amp; CNN</h1>
+        <p class="lead text-muted fs-6">
+            A comprehensive final-year engineering system utilizing MobileNetV2 transfer learning, computer vision preprocessing, and a full-stack Flask agricultural dashboard.
+        </p>
+    </div>
+
+    <!-- Overview Grid -->
+    <div class="row g-4 mb-5">
+        
+        <!-- Problem Statement -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="feature-icon-wrapper bg-danger-subtle text-danger me-3">
+                        <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                    </div>
+                    <h4 class="fw-bold text-nature-dark mb-0">Problem Statement</h4>
+                </div>
+                <p class="text-secondary small leading-relaxed">
+                    Plant diseases threaten global food security, accounting for 20% to 40% of agricultural yield loss annually. Traditional diagnosis requires trained plant pathologists conducting visual inspection or time-consuming lab microbiological assays. 
+                </p>
+                <p class="text-secondary small leading-relaxed mb-0">
+                    For smallholder farmers and agricultural extension agents, delays in pathogen identification lead to improper pesticide usage, increased input costs, and irreversible crop failure. An automated, accessible, and accurate visual diagnosis system is urgently required.
+                </p>
+            </div>
+        </div>
+
+        <!-- Project Objectives -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="feature-icon-wrapper bg-success-subtle text-success me-3">
+                        <i class="bi bi-bullseye fs-4"></i>
+                    </div>
+                    <h4 class="fw-bold text-nature-dark mb-0">Project Objectives</h4>
+                </div>
+                <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                    <li class="d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                        <span><strong>Automated Leaf Classification:</strong> Train a CNN to detect healthy vs diseased leaves across 38 categories from the PlantVillage dataset.</span>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                        <span><strong>Transfer Learning with MobileNetV2:</strong> Leverage feature representations pretrained on ImageNet for high classification accuracy with low compute overhead.</span>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                        <span><strong>Actionable Guidance:</strong> Map model outputs to structured agricultural disease descriptions, symptom checklists, and integrated management tips.</span>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                        <span><strong>Full-Stack Web Interface:</strong> Deploy a user-friendly Flask application with real-time image upload, validation, and inference feedback.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Deep Learning Architecture & MobileNetV2 -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-5 bg-white">
+        <h3 class="fw-bold text-nature-dark mb-3">Deep Learning Methodology: MobileNetV2 Transfer Learning</h3>
+        <p class="text-muted small mb-4">
+            MobileNetV2 was chosen over heavier networks (like VGG16 or ResNet50) because it achieves state-of-the-art accuracy while operating with significantly fewer parameters (3.5M vs 138M in VGG16) and low computational latency.
+        </p>
+
+        <!-- Architecture Flow Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="p-3 rounded-3 bg-nature-light border text-center">
+                    <div class="badge bg-nature-primary mb-2">Input Layer</div>
+                    <h6 class="fw-bold text-nature-dark">224 &times; 224 &times; 3 RGB</h6>
+                    <p class="small text-muted mb-0">Normalized to [-1, 1] range</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 rounded-3 bg-nature-light border text-center">
+                    <div class="badge bg-nature-accent text-dark mb-2">Feature Extractor</div>
+                    <h6 class="fw-bold text-nature-dark">MobileNetV2 Base</h6>
+                    <p class="small text-muted mb-0">Pretrained on ImageNet-1K</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 rounded-3 bg-nature-light border text-center">
+                    <div class="badge bg-nature-success text-white mb-2">Regularization</div>
+                    <h6 class="fw-bold text-nature-dark">GAP &amp; Dropout</h6>
+                    <p class="small text-muted mb-0">Global Avg Pooling + 0.3 / 0.2 Dropout</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 rounded-3 bg-nature-light border text-center">
+                    <div class="badge bg-nature-dark text-white mb-2">Classification Head</div>
+                    <h6 class="fw-bold text-nature-dark">Dense Softmax</h6>
+                    <p class="small text-muted mb-0">38 Output Probability Nodes</p>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="fw-bold text-nature-dark mb-2">Key MobileNetV2 Architectural Innovations:</h5>
+        <div class="row g-3 small text-secondary">
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-white h-100">
+                    <strong class="text-nature-dark d-block mb-1"><i class="bi bi-boxes text-nature-accent me-1"></i> Depthwise Separable Convolutions:</strong>
+                    Factorizes a standard convolution into a depthwise convolution (spatial filtering per channel) followed by a 1&times;1 pointwise convolution (channel combination), reducing computational costs by 8 to 9 times.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-white h-100">
+                    <strong class="text-nature-dark d-block mb-1"><i class="bi bi-arrow-repeat text-nature-accent me-1"></i> Inverted Residuals &amp; Linear Bottlenecks:</strong>
+                    Shortcuts link low-dimensional bottleneck layers rather than expanded manifolds, preserving gradient flow while linear activations prevent non-linearities from destroying manifold manifolds.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset & Technology Stack -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <h4 class="fw-bold text-nature-dark mb-3">
+                    <i class="bi bi-database-fill text-nature-primary me-2"></i> PlantVillage Dataset
+                </h4>
+                <p class="small text-muted mb-3">
+                    The PlantVillage benchmark dataset contains over 54,000 expertly classified foliar images across 14 crop species and 26 diseases alongside healthy controls.
+                </p>
+                <div class="table-responsive small">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Property</th>
+                                <th>Specification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Images</td>
+                                <td>~54,305 leaf photos</td>
+                            </tr>
+                            <tr>
+                                <td>Total Classes</td>
+                                <td>38 distinct plant/condition categories</td>
+                            </tr>
+                            <tr>
+                                <td>Crop Species</td>
+                                <td>Tomato, Potato, Corn, Apple, Grape, Pepper, Peach, etc.</td>
+                            </tr>
+                            <tr>
+                                <td>Split Strategy</td>
+                                <td>70% Train, 15% Validation, 15% Test (Stratified)</td>
+                            </tr>
+                            <tr>
+                                <td>Data Augmentation</td>
+                                <td>Random Rotation (&plusmn;15&deg;), Flip, Zoom (&plusmn;15%), Shift</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <h4 class="fw-bold text-nature-dark mb-3">
+                    <i class="bi bi-stack text-nature-primary me-2"></i> Technology Stack
+                </h4>
+                <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Language &amp; Runtime:</strong> Python 3</span>
+                        <span class="badge bg-secondary">Backend Logic</span>
+                    </li>
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Deep Learning:</strong> TensorFlow &amp; Keras</span>
+                        <span class="badge bg-secondary">Model Training &amp; Inference</span>
+                    </li>
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Computer Vision:</strong> OpenCV &amp; Pillow (PIL)</span>
+                        <span class="badge bg-secondary">Image Preprocessing</span>
+                    </li>
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Evaluation &amp; Analytics:</strong> Scikit-learn, Seaborn, Matplotlib</span>
+                        <span class="badge bg-secondary">Confusion Matrix &amp; Reports</span>
+                    </li>
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Web Framework:</strong> Flask</span>
+                        <span class="badge bg-secondary">REST API &amp; Server Routing</span>
+                    </li>
+                    <li class="p-2 border rounded-2 bg-nature-light d-flex justify-content-between align-items-center">
+                        <span><strong>Frontend:</strong> HTML5, CSS3, JavaScript, Bootstrap 5</span>
+                        <span class="badge bg-secondary">Agricultural Dashboard UI</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Limitations & Future Work -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h4 class="fw-bold text-nature-dark mb-3">System Limitations &amp; Future Scope</h4>
+        <div class="row g-4 small text-secondary">
+            <div class="col-md-6">
+                <h6 class="fw-bold text-danger mb-2">Current Limitations:</h6>
+                <ul class="mb-0 ps-3">
+                    <li class="mb-1"><strong>Lab vs Field Discrepancy:</strong> PlantVillage images were captured on uniform neutral backgrounds. Complex field clutter may reduce accuracy.</li>
+                    <li class="mb-1"><strong>Single-Leaf Focus:</strong> The system evaluates individual leaves and does not currently detect whole-canopy or multi-disease co-infections.</li>
+                    <li class="mb-1"><strong>Out-of-Distribution Inputs:</strong> Leaves from unmodeled plant species or non-leaf photos will receive predictions from the closest modeled class unless low confidence is detected.</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6 class="fw-bold text-success mb-2">Future Scope:</h6>
+                <ul class="mb-0 ps-3">
+                    <li class="mb-1"><strong>Edge Deployment:</strong> Convert the `.keras` model to TensorFlow Lite (`.tflite`) for offline deployment on Android devices using Flutter.</li>
+                    <li class="mb-1"><strong>Multi-Spectral &amp; Drone Integration:</strong> Integrate drone multispectral camera feeds for macro-field stress mapping.</li>
+                    <li class="mb-1"><strong>Explainable AI (XAI):</strong> Implement Grad-CAM heatmap visualizations to highlight exact lesion areas driving neural predictions.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

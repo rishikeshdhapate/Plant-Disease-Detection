@@ -1,0 +1,270 @@
+/* ==========================================================================
+   FloraGuard AI - Plant Disease Detection System
+   Modern Agricultural Design System & Theme Stylesheet
+   ========================================================================== */
+
+:root {
+    --nature-primary: #1b4332;
+    --nature-secondary: #2d6a4f;
+    --nature-accent: #52b788;
+    --nature-accent-hover: #40916c;
+    --nature-light: #f4f7f4;
+    --nature-card-bg: #ffffff;
+    --nature-dark: #081c15;
+    --nature-border: #e2e8f0;
+    --nature-text: #1e293b;
+    --nature-text-muted: #64748b;
+    --nature-success: #198754;
+    --nature-warning: #d97706;
+    --nature-danger: #dc2626;
+    --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--nature-text);
+    background-color: var(--nature-light);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+}
+
+/* Color Classes */
+.bg-nature-primary { background-color: var(--nature-primary) !important; }
+.bg-nature-secondary { background-color: var(--nature-secondary) !important; }
+.bg-nature-accent { background-color: var(--nature-accent) !important; }
+.bg-nature-light { background-color: var(--nature-light) !important; }
+.bg-nature-dark { background-color: var(--nature-dark) !important; }
+.bg-nature-success { background-color: var(--nature-success) !important; }
+
+.text-nature-primary { color: var(--nature-primary) !important; }
+.text-nature-accent { color: var(--nature-accent) !important; }
+.text-nature-dark { color: var(--nature-dark) !important; }
+
+.btn-nature-primary {
+    background-color: var(--nature-secondary);
+    color: #ffffff;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-nature-primary:hover, .btn-nature-primary:focus {
+    background-color: var(--nature-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(27, 67, 50, 0.2);
+}
+
+.btn-nature-accent {
+    background-color: var(--nature-accent);
+    color: var(--nature-dark);
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-nature-accent:hover {
+    background-color: var(--nature-accent-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn-outline-nature {
+    color: var(--nature-secondary);
+    border: 1.5px solid var(--nature-secondary);
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-nature:hover {
+    background-color: var(--nature-secondary);
+    color: #ffffff;
+}
+
+/* Announcement Bar */
+.top-announcement {
+    background: linear-gradient(90deg, #1b4332 0%, #2d6a4f 50%, #1b4332 100%);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+}
+
+/* Brand & Navbar */
+.brand-icon-wrapper {
+    width: 38px;
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar .nav-link {
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: var(--nature-accent) !important;
+}
+
+.status-indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #40916c 100%);
+    min-height: 480px;
+}
+
+.hero-leaf-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #74c69d 0%, #d8f3dc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Workflow Step Feature Cards */
+.feature-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.step-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--nature-secondary);
+}
+
+.feature-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Supported Crops Card */
+.crop-card {
+    transition: all 0.25s ease;
+}
+
+.crop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06) !important;
+    border-color: var(--nature-accent) !important;
+}
+
+.crop-badge-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Upload Dropzone Component */
+.upload-dropzone {
+    background-color: #fafcfb;
+    border-color: #95d5b2 !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.drag-active {
+    background-color: #ebf7f0;
+    border-color: var(--nature-secondary) !important;
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.12);
+}
+
+.upload-icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #d8f3dc;
+    transition: transform 0.25s ease;
+}
+
+.upload-dropzone:hover .upload-icon-circle {
+    transform: scale(1.08);
+}
+
+.file-input-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Sample Image Cards */
+.sample-image-card {
+    transition: all 0.2s ease;
+}
+
+.sample-image-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--nature-accent) !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Results Section */
+.result-image-header {
+    background-color: #0f231b;
+}
+
+/* Utilities */
+.max-w-600 { max-width: 600px; }
+.max-w-700 { max-width: 700px; }
+.max-w-800 { max-width: 800px; }
+
+.hover-link:hover {
+    color: var(--nature-accent) !important;
+    padding-left: 4px;
+    transition: all 0.2s ease;
+}
+
+.text-light-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
